@@ -34,18 +34,33 @@ func sunniBinarySearch<T: Comparable>(arr: [T], target: T, range: Range<Int>? = 
 // 1. Find if an element is contained within a sorted array in O(log(n)) time.  Do not use recursion.
 
 func binarySearch<T: Comparable>(arr: [T], target: T) -> Bool {
+    var lowerBound = 0
+    var upperBound = arr.count - 1
     
+    while lowerBound <= upperBound {
+        let middleIndex = (lowerBound + upperBound) / 2
+        
+        if target == arr[middleIndex] {
+            return true
+        } else if arr[middleIndex] > target {
+            upperBound = middleIndex - 1
+        } else {
+            lowerBound = middleIndex + 1
+        }
+    }
     return false
 }
 
 // 2. Find if an element is contained within a sorted array in O(log(n)) time.  Use recursion.
 
 func recursiveBinarySearch<T: Comparable>(arr: [T], target: T) -> Bool {
-    let middleIndex = (arr.endIndex - 1) / 2
     
     var newArr = arr
     
+    var middleIndex = (newArr.endIndex - 1) / 2
+    
     while newArr.count > 2 {
+        
         if target == arr[middleIndex] {
             return true
         } else if target < arr[middleIndex] {
