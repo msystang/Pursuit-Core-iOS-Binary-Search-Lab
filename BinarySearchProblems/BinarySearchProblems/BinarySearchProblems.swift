@@ -1,10 +1,40 @@
 import Foundation
 
-//
+// Sunni's BinarySearch
+func sunniBinarySearch<T: Comparable>(arr: [T], target: T, range: Range<Int>? = nil, numberOfOperations: Int = 1) -> Bool {
+    
+    let searchRange: Range<Int>
+    if let range = range {
+        searchRange = range
+    } else {
+        searchRange = (0..<arr.endIndex)
+    }
+    
+    // Base Case
+    if searchRange.lowerBound >= searchRange.upperBound {
+        print("Binary search")
+        print("Didn't find \(target) in \(numberOfOperations) operations")
+        return false
+    }
+    
+    // Recursive Call
+    let middleIndex = (searchRange.lowerBound + searchRange.upperBound) / 2
+    
+    if target == arr[middleIndex] {
+        print("Binary search:")
+        print("Found \(target) in \(numberOfOperations) operations")
+        return true
+    } else if target < arr[middleIndex] {
+        return sunniBinarySearch(arr: arr, target: target, range: searchRange.lowerBound..<middleIndex, numberOfOperations: numberOfOperations + 1)
+    } else {
+        return sunniBinarySearch(arr: arr, target: target, range: (middleIndex + 1)..<searchRange.upperBound, numberOfOperations: numberOfOperations + 1)
+    }
+}
 
 // 1. Find if an element is contained within a sorted array in O(log(n)) time.  Do not use recursion.
 
 func binarySearch<T: Comparable>(arr: [T], target: T) -> Bool {
+     
     return false
 }
 
@@ -22,7 +52,24 @@ func recursiveBinarySearch<T: Comparable>(arr: [T], target: T) -> Bool {
 // The first integer of each row is greater than or equal to the last integer of the previous row.
 
 func contains(value: Int, in arr: [[Int]]) -> Bool {
-    return false
+    var minRowIndex = 0
+    var maxRowIndex = arr.count - 1
+    
+    while minRowIndex < maxRowIndex {
+        let middleRowIndex = (minRowIndex + maxRowIndex) / 2
+        
+        if arr[middleRowIndex][0] == value {
+            return true
+        } else if arr[middleRowIndex][0] > value {
+            maxRowIndex = middleRowIndex - 1
+        } else if arr[minRowIndex][0] < value {
+            minRowIndex = middleRowIndex + 1
+        }
+    }
+    
+    let targetArr = arr[minRowIndex] //minRowIndex should be same as maxRowIndex after while loop
+    
+    return sunniBinarySearch(arr: targetArr, target: value)
 }
 
 
