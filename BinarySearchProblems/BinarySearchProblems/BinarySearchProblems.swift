@@ -57,9 +57,9 @@ func recursiveBinarySearch<T: Comparable>(arr: [T], target: T) -> Bool {
     
     var newArr = arr
     
-    var middleIndex = (newArr.endIndex - 1) / 2
+    let middleIndex = (newArr.endIndex - 1) / 2
     
-    while newArr.count > 2 {
+    while newArr.count >= 2 {
         
         if target == arr[middleIndex] {
             return true
@@ -108,7 +108,28 @@ func contains(value: Int, in arr: [[Int]]) -> Bool {
 // 4. Given a sorted array of integers, find the index of the last occurrence of a given number.  Your solution should work in O(log(n)) time
 
 func lastOccurrence<T: Comparable>(of value: T, in arr: [T]) -> Int? {
-    return nil
+    var index: Int?
+    
+    if arr.count == 0 {
+        return nil
+    }
+    
+    var lowerBound = 0
+    var upperBound = arr.count - 1
+    
+    while lowerBound <= upperBound {
+        let middleIndex = (lowerBound + upperBound) / 2
+        
+        if arr[middleIndex] == value {
+            index = middleIndex
+            lowerBound = middleIndex + 1
+        } else if arr[middleIndex] > value {
+            upperBound = middleIndex - 1
+        } else {
+            lowerBound = middleIndex + 1
+        }
+    }
+    return index
 }
 
 // https://www.techiedelight.com/find-smallest-missing-element-sorted-array/
